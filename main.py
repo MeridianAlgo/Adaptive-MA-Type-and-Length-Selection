@@ -594,7 +594,6 @@ def find_best_ma_improved(df, train_split=0.8, max_length=100, eval_period=20, a
     ax[1].set_xlabel('Length')
     ax[1].set_ylabel('Score')
     plt.tight_layout()
-    plt.savefig('ma_scores.png')
     plt.close()
     
     return best_type, best_len, best_score, test_profit, test_sharpe, test_signals
@@ -750,5 +749,3 @@ if __name__ == '__main__':
             print(f'Saved selected MA to {json_path}')
         except Exception as ex:
             print('Failed to save selected MA json:', ex)
-
-    # (points chart removed per user request)

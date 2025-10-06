@@ -1,21 +1,21 @@
 {
   "ma_type": "LINREG",
-  "length": 2,
-  "final_cash": 11025.389670466415,
-  "total_pct": 0.09766082310770938,
-  "dollars_gained": 1406.0311269669664,
-  "dollars_lost": 380.64145650055656,
-  "num_trades": 1048,
+  "length": 30,
+  "final_cash": 295.0,
+  "total_pct": -0.002424136134930964,
+  "dollars_gained": 467.0,
+  "dollars_lost": 245.57503146622025,
+  "num_trades": 0,
   "settings": {
     "ticker": "BTC-USD",
     "period": "7d",
     "interval": "1m",
+    "min_len": 2,
     "max_len": 30,
     "tp_dollars": 1.5,
     "sl_offset": 1.0,
     "initial_cash": 10000.0,
     "max_holding": 60,
-    "ranking": "points",
-    "min_len": 1
+    "ranking": "final_cash"
   }
 }

@@ -1,6 +1,6 @@
 # Adaptive MA Type & Length Selection
 
-This repository contains a single main script `s.py` that scans moving-average types and lengths, simulates simple TP/SL trades, and selects the best MA by final cash outcome.
+This repository contains a single main script `main.py` that scans moving-average types and lengths, simulates simple TP/SL trades, and selects the best MA by final cash outcome.
 
 Quick start
 
@@ -13,13 +13,13 @@ Quick start
 2. Run interactively:
 
    ```powershell
-   python s.py
+   python main.py
    ```
 
 3. Run headless with defaults:
 
    ```powershell
-   python s.py --auto
+   python main.py --auto
    ```
 
 Outputs
@@ -34,3 +34,18 @@ Backups
 - Original auxiliary files (if any) were backed up in `backups/` before removal.
 
 If you want any changes to defaults, output locations, or to restore archived files, tell me and I will update the project.
+
+Pinned dependencies
+
+This project includes a `requirements.txt` with pinned versions known to work together (as of Oct 2025):
+
+```
+pandas==2.2.2
+numpy==1.25.0
+matplotlib==3.8.0
+yfinance==0.2.29
+```
+
+Main script
+
+Use `main.py` as the main entry point for scanning MAs and generating outputs. The older `strategy.py` file was archived and should not be used.
