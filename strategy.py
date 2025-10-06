@@ -1,29 +1,5 @@
-import pandas as pd
-import numpy as np
-import yfinance as yf
-import matplotlib.pyplot as plt
-import sys
-import math
-from datetime import datetime, timedelta
-
-# small helper to coerce pandas/numpy objects to plain Python scalars
-def scalarize(x, fallback=0.0):
-    try:
-        if isinstance(x, pd.Series):
-            if x.empty:
-                return fallback
-            if x.size == 1:
-                return x.iloc[0]
-            return float(x.mean())
-        arr = np.asarray(x)
-        if arr.size == 0:
-            return fallback
-        if arr.size == 1:
-            # return python scalar
-            return arr.item()
-        return float(np.nanmean(arr))
-    except Exception:
-        return fallback
+# REMOVED: This file was intentionally removed from active workspace.
+# Original content is preserved in backups/strategy_full_backup.py
 
 # --- simple interactive interface (defaults used if input left blank) ---
 def get_settings():

@@ -683,17 +683,20 @@ if __name__ == '__main__':
     if overall_best[0] is not None:
         ob_type = overall_best[0]
         ob_len = int(overall_best[1])
-        ob_points = int(overall_best[2])
         ob_final_cash = float(overall_best[3])
         ob_pct = float(overall_best[4])
         ob_gained = float(overall_best[5])
         ob_lost = float(overall_best[6])
         ob_tr = int(overall_best[7])
-        print(f"\nOverall best single MA (by chosen ranking): {ob_type} length={ob_len}, points={ob_points}, final_cash=${ob_final_cash:.2f}, total_pct={ob_pct:.4f}, gained=${ob_gained:.2f}, lost=${ob_lost:.2f}, trades={ob_tr}")
+        print(f"\nOverall best single MA (by chosen ranking): {ob_type} length={ob_len}, final_cash=${ob_final_cash:.2f}, total_pct={ob_pct:.4f}, gained=${ob_gained:.2f}, lost=${ob_lost:.2f}, trades={ob_tr}")
     else:
         print('\nNo profitable single-MA trades found in scan.')
 
     # Plotting: lengths vs total percent for each MA type
+    import os
+    out_dir = os.path.join(os.path.dirname(__file__), 'outputs')
+    os.makedirs(out_dir, exist_ok=True)
+
     plt.figure(figsize=(12, 6))
     for t, rows in results.items():
         lengths = [int(r[0]) for r in rows]
@@ -705,8 +708,9 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig('single_ma_scores.png')
-    print('\nSaved single-MA percent chart to single_ma_scores.png')
+    scores_path = os.path.join(out_dir, 'single_ma_scores.png')
+    plt.savefig(scores_path)
+    print(f'\nSaved single-MA percent chart to {scores_path}')
 
     # Dollars chart (gained and lost)
     plt.figure(figsize=(12, 6))
@@ -722,20 +726,29 @@ if __name__ == '__main__':
     plt.legend(fontsize='small', ncol=2)
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig('single_ma_dollars.png')
-    print('Saved dollars chart to single_ma_dollars.png')
+    dollars_path = os.path.join(out_dir, 'single_ma_dollars.png')
+    plt.savefig(dollars_path)
+    print(f'Saved dollars chart to {dollars_path}')
 
-    # Points chart
-    plt.figure(figsize=(12, 6))
-    for t, rows in results.items():
-        lengths = [int(r[0]) for r in rows]
-        pts = [int(scalarize(r[5], 0)) for r in rows]
-        plt.plot(lengths, pts, label=t)
-    plt.xlabel('Length')
-    plt.ylabel('Points')
-    plt.title('Single-MA points by length')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig('single_ma_points.png')
-    print('Saved points chart to single_ma_points.png')
+    # persist selection to JSON for easy reuse (if we found an overall best)
+    if overall_best[0] is not None:
+        try:
+            import json
+            sel = {
+                'ma_type': overall_best[0],
+                'length': int(overall_best[1]),
+                'final_cash': float(overall_best[3]),
+                'total_pct': float(overall_best[4]),
+                'dollars_gained': float(overall_best[5]),
+                'dollars_lost': float(overall_best[6]),
+                'num_trades': int(overall_best[7]),
+                'settings': settings
+            }
+            json_path = os.path.join(out_dir, 'selected_ma.json')
+            with open(json_path, 'w', encoding='utf-8') as f:
+                json.dump(sel, f, indent=2)
+            print(f'Saved selected MA to {json_path}')
+        except Exception as ex:
+            print('Failed to save selected MA json:', ex)
+
+    # (points chart removed per user request)
